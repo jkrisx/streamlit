@@ -1,7 +1,13 @@
-import re, io, tempfile
-from openpyxl import load_workbook, Workbook
 import streamlit as st
+from openpyxl import load_workbook
+import io
 
-st.set_page_config(page_title="AL Converter - Streamlit", layout="wide")
-st.title("Analisis Lendutan Converter — Streamlit")
-st.markdown("Upload file .docx (bisa banyak), file database .db dan template Excel (.xlsx). Klik **Run** untuk menghasilkan Excel.")
+uploaded_file = st.file_uploader("Upload Excel", type="xlsx")
+
+if uploaded_file:
+    # Convert file upload jadi BytesIO agar bisa dibaca openpyxl
+    wb = load_workbook(io.BytesIO(uploaded_file.read()))
+    ws = wb.active
+    
+    # Baca data dari cell
+    st.write("Isi A1:", ws["A1"].value)
