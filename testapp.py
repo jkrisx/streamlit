@@ -1,5 +1,4 @@
 import re, io, tempfile
-from docx import Document
 from openpyxl import load_workbook, Workbook
 import streamlit as st
 
