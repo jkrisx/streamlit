@@ -1,13 +1,11 @@
 import streamlit as st
-from openpyxl import load_workbook
-import io
+import pandas as pd
 
-uploaded_file = st.file_uploader("Upload Excel", type="xlsx")
+st.title("Baca Excel di Streamlit - pandas.read_excel")
 
-if uploaded_file:
-    # Convert file upload jadi BytesIO agar bisa dibaca openpyxl
-    wb = load_workbook(io.BytesIO(uploaded_file.read()))
-    ws = wb.active
-    
-    # Baca data dari cell
-    st.write("Isi A1:", ws["A1"].value)
+uploaded = st.file_uploader("Upload file Excel (.xlsx/.xls)", type=["xlsx", "xls"])
+if uploaded:
+    # pandas bisa menerima file-like object langsung
+    df = pd.read_excel(uploaded)            # untuk xlsx, engine=openpyxl akan dipakai otomatis
+    st.dataframe(df)                        # preview
+    st.write(df.head())
